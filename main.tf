@@ -41,21 +41,3 @@ resource "aws_iam_role" "eksClusterReadOnlyRole" {
 
   tags = local.default_tags
 }
-
-resource "aws_eks_access_entry" "eksClusterReadOnlyAccessEntry" {
-  cluster_name  = module.eks.cluster_name
-  principal_arn = aws_iam_role.eksClusterReadOnlyRole.arn
-  # kubernetes_groups = ["group-1", "group-2"]
-  type = "STANDARD"
-}
-
-resource "aws_eks_access_policy_association" "eksClusterReadOnlyAccessPolicy" {
-  cluster_name  = module.eks.cluster_name
-  policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSViewPolicy"
-  principal_arn = aws_iam_role.eksClusterReadOnlyRole.arn
-
-  access_scope {
-    type = "cluster" # namespace | cluster
-    # namespaces = ["example-namespace"]
-  }
-}

@@ -44,8 +44,11 @@ module "eks" {
   # To add the current caller identity as an administrator
   enable_cluster_creator_admin_permissions = true
 
-  ### Instead of creating additional access entries within this module, 
-  ### I have created them in the main.tf instead for clarity and better understanding.
+  /*
+  Instead of creating additional access entries within this module, 
+  I have created them below as a standalone resource block instead 
+  for clarity and better understanding.
+  */
   # access_entries = {
   #   # One access entry with a policy associated
   #   example = {
@@ -71,4 +74,28 @@ module "eks" {
   ]
 
   tags = local.default_tags
+}
+
+# Create an access entry for the "cluster-read-only" IAM role
+resource "aws_eks_access_entry" "eksClusterReadOnlyAccessEntry" {
+  cluster_name  = module.eks.cluster_name
+  principal_arn = aws_iam_role.eksClusterReadOnlyRole.arn
+  # kubernetes_groups = ["group-1", "group-2"]
+  type = "STANDARD"
+}
+
+/*
+Associate an access policy to the above access entry.
+If none of the access policies meet your requirements, then don't associate an access policy to an access entry. 
+Instead, specify Kubernetes group name(s) for the access entry within the "aws_eks_access_entry" resource block.
+*/
+resource "aws_eks_access_policy_association" "eksClusterReadOnlyAccessPolicy" {
+  cluster_name  = module.eks.cluster_name
+  policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSViewPolicy"
+  principal_arn = aws_iam_role.eksClusterReadOnlyRole.arn
+
+  access_scope {
+    type = "cluster" # namespace | cluster
+    # namespaces = ["example-namespace"]
+  }
 }
