@@ -15,6 +15,7 @@ https://medium.com/@kennyangjy/...
 3. `terraform plan`
 <br>There should be 47 resources to be created.
 4. `terraform apply`
+<br>Give it 10-15 minutes for the apply to complete.
 
 ### Clean-up
 1. `terraform destroy`
