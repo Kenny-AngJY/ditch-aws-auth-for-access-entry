@@ -1,5 +1,5 @@
 ### Check out my article on "Enhancing EKS Access Control: Ditch the aws-auth ConfigMap for Access Entry"
-https://medium.com/@kennyangjy/...
+https://medium.com/@kennyangjy/enhancing-eks-access-control-ditch-the-aws-auth-configmap-for-access-entry-91683b47e6fc
 
 ![Enhancing EKS Access Control: Ditch the aws-auth ConfigMap for Access Entry](./IAM-EKS.jpg?raw=true "Enhancing EKS Access Control: Ditch the aws-auth ConfigMap for Access Entry")
 
