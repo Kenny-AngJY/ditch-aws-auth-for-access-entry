@@ -1,8 +1,8 @@
 module "eks" {
   source                                 = "terraform-aws-modules/eks/aws"
-  version                                = "20.8.5"
+  version                                = "20.24.2" # Published September 21, 2024
   cluster_name                           = local.cluster_name
-  cluster_version                        = "1.29"
+  cluster_version                        = "1.31"
   authentication_mode                    = "API" # API | CONFIG_MAP | API_AND_CONFIG_MAP
   cluster_endpoint_public_access         = true
   cloudwatch_log_group_retention_in_days = 30
