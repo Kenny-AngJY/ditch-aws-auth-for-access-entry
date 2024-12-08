@@ -10,34 +10,15 @@ locals {
 }
 
 module "vpc" {
-  count          = var.create_vpc ? 1 : 0
-  source         = "./modules/vpc"
-  stack_name     = local.name
-  vpc_cidr_block = "10.1.0.0/16"
+  count              = var.create_vpc ? 1 : 0
+  source             = "./modules/vpc"
+  stack_name         = local.name
+  vpc_cidr_block     = "10.1.0.0/16"
+  create_nat_gateway = var.create_eks_worker_nodes_in_private_subnet # Fargate profile needs private subnet
 
-  list_of_azs        = ["ap-southeast-1a", "ap-southeast-1b", "ap-southeast-1c"]
-  list_of_cidr_range = ["10.1.101.0/24", "10.1.102.0/24", "10.1.103.0/24"]
+  list_of_azs                = ["ap-southeast-1a", "ap-southeast-1b", "ap-southeast-1c"]
+  list_of_public_cidr_range  = ["10.1.101.0/24", "10.1.102.0/24", "10.1.103.0/24"]
+  list_of_private_cidr_range = ["10.1.1.0/24", "10.1.2.0/24", "10.1.3.0/24"]
 
   default_tags = local.default_tags
-}
-
-resource "aws_iam_role" "eksClusterReadOnlyRole" {
-  name        = "cluster-read-only"
-  description = "Sample IAM role to map to an access entry"
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Sid    = ""
-        Principal = {
-          Service = "eks.amazonaws.com"
-        }
-      },
-    ]
-  })
-
-  tags = local.default_tags
 }
