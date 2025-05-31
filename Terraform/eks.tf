@@ -3,7 +3,7 @@ module "eks" {
   version                                = "20.30.0" # Published November 27, 2024
   create                                 = true
   cluster_name                           = local.cluster_name
-  cluster_version                        = "1.31"
+  cluster_version                        = "1.33"
   authentication_mode                    = "API" # API | CONFIG_MAP | API_AND_CONFIG_MAP
   cluster_endpoint_private_access        = true  # Indicates whether or not the Amazon EKS private API server endpoint is enabled
   cluster_endpoint_public_access         = true  # Indicates whether or not the Amazon EKS public API server endpoint is enabled
@@ -34,7 +34,7 @@ module "eks" {
     # Network interface will show all IPs used in the subnet
     # VPC CNI add-on will create the "aws-node" daemonset in the kube-system namespace.
     vpc-cni = {
-      addon_version            = "v1.19.0-eksbuild.1" # major-version.minor-version.patch-version-eksbuild.build-number.
+      addon_version            = "v1.19.5-eksbuild.1" # major-version.minor-version.patch-version-eksbuild.build-number.
       service_account_role_arn = aws_iam_role.eks_vpc_cni_role.arn
       configuration_values = jsonencode(
         {
